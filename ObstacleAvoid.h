@@ -42,16 +42,16 @@ private:
 
     void estimateKeypointExpansion(Mat const &currFrame, Mat const &lastFrame, vector<DMatch> const &matches,
                                    vector<KeyPoint> const &queryKPs, vector<KeyPoint> const &trainKPs,
-                                   unordered_map<int, KeyPointHistory>  &kphist, vector<Mat> const &framehist,
+                                   unordered_map<int, KeyPointHistory>  &kphist,
                                    vector<double>& scale_argmin, vector<DMatch>& expandingMatches ) ;
 
     void trunc_coords(const Size &dims, const int &in_x, const int &in_y, int &out_x, int &out_y);
+    void normalizeMAtrix(const Mat& inImg, Mat& outImg);
 
     Mat lastFrame;
     vector<KeyPoint> queryKP;
     Mat qdesc;
     unordered_map<int, KeyPointHistory> kphist;
-    vector<Mat> framehist;
     Mat roi;
     double t_curr;
     double t_last;

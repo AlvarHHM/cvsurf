@@ -14,7 +14,6 @@ using namespace std;
 class KeyPointHistory {
 public:
     int age = -1;
-    int lastFrameIdx = 0;
     int detects = 0;
     vector<double> scalehist;
     vector<double> timehist_t0;
@@ -22,9 +21,12 @@ public:
     KeyPoint keypoint;
     Mat descriptor;
     int consecutive = 0;
+    Mat frame;
 
-    void update(KeyPoint kp, Mat desc, double t0, double t1, double scale);
-    void downdate();
+    virtual ~KeyPointHistory();
+
+    void update(const KeyPoint& kp, const Mat& desc, Mat& frame, double t0, double t1, double scale);
+    int downdate();
 private:
 
 };

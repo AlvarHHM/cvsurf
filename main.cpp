@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
         if (waitKey(30) == 27) {
             break;
         }
+//        while(waitKey(30) != 32);
     }
 
 
