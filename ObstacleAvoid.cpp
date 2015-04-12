@@ -28,8 +28,7 @@ void ObstacleAvoid::processFrame(Mat& frame, double time) {
 //    }
 
     double t_curr = time;
-    Mat currFrame;
-    cvtColor(frame, currFrame, CV_RGB2GRAY);
+    Mat& currFrame = frame;
 
 
     vector<KeyPoint>& queryKP = this->queryKP;
@@ -128,9 +127,14 @@ void ObstacleAvoid::processFrame(Mat& frame, double time) {
         cout << scaledMatches.size() << endl;
     }
 
-    
+
     Mat outImg;
-    drawMatches(this->lastFrame, queryKP, currFrame, trainKP, scaledMatches, outImg);
+    vector<KeyPoint> scaledKeyPoint;
+    for(DMatch& m : scaledMatches){
+        scaledKeyPoint.push_back(trainKP[m.trainIdx]);
+    }
+    drawKeypoints(currFrame, scaledKeyPoint, outImg, Scalar(255, 0, 0), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+//    drawMatches(this->lastFrame, queryKP, currFrame, trainKP, scaledMatches, outImg);
     imshow("Original", outImg);
 
     this->lastFrame = currFrame;
@@ -268,7 +272,7 @@ void ObstacleAvoid::estimateKeypointExpansion(Mat const &currFrame, Mat const &l
         }
 
 
-        if (all_of(res.begin(), res.end(), [](double i){return isnan(i);})) continue;
+        if (all_of(res.begin(), res.end(), [](double i){return std::isnan(i);})) continue;
         int minIndex = 0;
         int minValue = res[0];
         for(int i = 0; i < res.size(); i++){
@@ -291,7 +295,6 @@ void ObstacleAvoid::trunc_coords(const Size& dims, const int& in_x, const int& i
 
 
 void ObstacleAvoid::init(Mat& frame, double time) {
-    cvtColor(frame, frame, CV_RGB2GRAY);
     this->lastFrame = frame;
     this->t_last = time;
     Mat roi = Mat::zeros(frame.rows, frame.cols, CV_8UC1);

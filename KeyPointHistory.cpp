@@ -6,7 +6,7 @@ void KeyPointHistory::update(const KeyPoint& kp, const Mat& desc, Mat& frame, do
     }else{
         this->consecutive = 1;
     }
-    this->age -= 1;
+    this->age += 1;
     this->detects += 1;
     this->scalehist.push_back(scale);
     this->timehist_t0.push_back(t0);

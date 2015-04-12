@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/features2d/features2d.hpp"
@@ -31,16 +32,19 @@ int main(int argc, char **argv) {
     VideoCapture cap(0); //capture the video from web cam
     cap.set(CV_CAP_PROP_FRAME_WIDTH, 640.0);
     cap.set(CV_CAP_PROP_FRAME_HEIGHT, 360.0);
-
+    namedWindow("Original", WINDOW_NORMAL);
 
     ObstacleAvoid avoid;
     Mat lastFrame;
     cap.read(lastFrame);
-    avoid.init(lastFrame, cap.get(CV_CAP_PROP_POS_MSEC));
+    cvtColor(lastFrame, lastFrame, CV_RGB2GRAY);
+    avoid.init(lastFrame, time(0));
+
     while(true){
         Mat frame;
         cap.read(frame);
-        avoid.processFrame(frame, cap.get(CV_CAP_PROP_POS_MSEC));
+        cvtColor(frame, frame, CV_RGB2GRAY);
+        avoid.processFrame(frame, time(0));
         if (waitKey(30) == 27) {
             break;
         }
@@ -50,25 +54,6 @@ int main(int argc, char **argv) {
 
     return 0;
 
-
-
-
-//    namedWindow("Original", WINDOW_AUTOSIZE);
-//    Mat image;
-//    SURF surf(2000);
-//    vector<KeyPoint> keyPoint;
-//    Mat mask;
-//    while (true) {
-//        cap.read(image);
-//        cvtColor(image, image, CV_RGB2GRAY);
-//        surf(image, mask, keyPoint);
-//        drawKeypoints(image, keyPoint, image, Scalar(255, 0, 0), 4);
-//        cout << keyPoint.size() << endl;
-//        imshow("Original", image);
-//        if (waitKey(30) == 27) {
-//            break;
-//        }
-//    }
 
 
 }
