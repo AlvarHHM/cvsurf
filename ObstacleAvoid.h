@@ -23,6 +23,9 @@ public:
     static constexpr double KEYPOINT_SCALE = (MINSIZE * SEARCH_RES) / 9;
     static const int LAST_DAY = 10;
 
+    bool hasObstacle = false;
+    int obstacleX;
+
 
     virtual ~ObstacleAvoid();
 

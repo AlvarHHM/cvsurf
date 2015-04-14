@@ -27,6 +27,8 @@ void ObstacleAvoid::processFrame(Mat& frame, double time) {
 //        return;
 //    }
 
+    this->hasObstacle = true;
+
     double t_curr = time;
     Mat& currFrame = frame;
 
@@ -124,7 +126,12 @@ void ObstacleAvoid::processFrame(Mat& frame, double time) {
     for_each(deathByAge.begin(), deathByAge.end(), [&kphist](int id){kphist.erase(id);});
     
     if (scaledMatches.size() > 1) {
-        cout << scaledMatches.size() << endl;
+        this->hasObstacle = true;
+        double sum = 0;
+        for(DMatch& m : scaledMatches){
+            sum += trainKP[m.trainIdx].pt.x;
+        }
+        this->obstacleX = static_cast<int>(sum / scaledMatches.size());
     }
 
 
@@ -133,7 +140,8 @@ void ObstacleAvoid::processFrame(Mat& frame, double time) {
     for(DMatch& m : scaledMatches){
         scaledKeyPoint.push_back(trainKP[m.trainIdx]);
     }
-    drawKeypoints(currFrame, scaledKeyPoint, outImg, Scalar(255, 0, 0), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+    line(currFrame, Point(obstacleX, currFrame.cols/2), Point(obstacleX, currFrame.cols/2+100), Scalar(255,0,0), 5);
+    drawKeypoints(currFrame, scaledKeyPoint, outImg, Scalar(255, 0, 0), DrawMatchesFlags::DEFAULT);
 //    drawMatches(this->lastFrame, queryKP, currFrame, trainKP, scaledMatches, outImg);
     imshow("Original", outImg);
 
