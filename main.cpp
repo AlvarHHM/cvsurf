@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
         cvtColor(frame, frame, CV_RGB2GRAY);
         avoid.processFrame(frame);
         cv::imshow("Original", frame);
-        if (waitKey(1) == 27) {
+        if (waitKey(1) == 122) {
             break;
         }
 //        while(waitKey(30) != 32);

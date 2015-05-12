@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 find_package(OpenCV REQUIRED)
 
 set(CMAKE_CXX_FLAGS "-Ofast")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_BUILD_TYPE Release)
 set(EXECUTABLE_OUTPUT_PATH bin)
