@@ -16,8 +16,8 @@ public:
     int age = -1;
     int detects = 0;
     vector<double> scalehist;
-    vector<double> timehist_t0;
-    vector<double> timehist_t1;
+    vector<long> timehist_t0;
+    vector<long> timehist_t1;
     KeyPoint keypoint;
     Mat descriptor;
     int consecutive = 0;
@@ -25,7 +25,7 @@ public:
 
     virtual ~KeyPointHistory();
 
-    void update(const KeyPoint& kp, const Mat& desc, Mat& frame, double t0, double t1, double scale);
+    void update(const KeyPoint& kp, const Mat& desc, Mat& frame, long t0, long t1, double scale);
     int downdate();
 private:
 

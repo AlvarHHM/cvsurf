@@ -7,7 +7,7 @@
 #include <numeric>
 #include <array>
 #include "math.h"
-#include "ObstacleAvoid.h"
+#include "ObstacleDetect.h"
 
 using namespace cv;
 using namespace std;
@@ -25,27 +25,25 @@ double diffKP_L2(KeyPoint kp0, KeyPoint kp1){
 
 
 int main(int argc, char **argv) {
-//    std::array<float,7> arr ={0.2,0.1,1,NAN,2,3,NAN};
-//
-//        cout << *min_element(arr.begin(), arr.end());
-
+    cv::initModule_features2d();
     VideoCapture cap(0); //capture the video from web cam
     cap.set(CV_CAP_PROP_FRAME_WIDTH, 640.0);
     cap.set(CV_CAP_PROP_FRAME_HEIGHT, 360.0);
     namedWindow("Original", WINDOW_NORMAL);
 
-    ObstacleAvoid avoid;
+    ObstacleDetect avoid;
     Mat lastFrame;
     cap.read(lastFrame);
     cvtColor(lastFrame, lastFrame, CV_RGB2GRAY);
-    avoid.init(lastFrame, time(0));
+    avoid.init(lastFrame);
 
     while(true){
         Mat frame;
         cap.read(frame);
         cvtColor(frame, frame, CV_RGB2GRAY);
-        avoid.processFrame(frame, time(0));
-        if (waitKey(30) == 27) {
+        avoid.processFrame(frame);
+        cv::imshow("Original", frame);
+        if (waitKey(1) == 27) {
             break;
         }
 //        while(waitKey(30) != 32);

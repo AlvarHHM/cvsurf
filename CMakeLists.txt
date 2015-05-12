@@ -13,6 +13,7 @@ INCLUDE_DIRECTORIES (${OpenCV_INCLUDE_DIRS})
 
 add_executable(main
 	main.cpp
-	ObstacleAvoid.cpp ObstacleAvoid.h KeyPointHistory.cpp KeyPointHistory.h)
+	ObstacleDetect.cpp ObstacleDetect.h
+	KeyPointHistory.cpp KeyPointHistory.h)
 
 target_link_libraries(main ${OpenCV_LIBS})
